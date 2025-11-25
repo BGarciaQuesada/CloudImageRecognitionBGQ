@@ -84,6 +84,12 @@ public class SimpleCloudRecoEventHandler1 : MonoBehaviour
         metaDatosVuforia = MetaDatos.CreateFromJSON(cloudRecoSearchResult.MetaData);
         StartCoroutine(GetAssetBundle(metaDatosVuforia.url));
 
+        if (ImageTargetTemplate)
+        {
+            /* Enable the new result with the same ImageTargetBehaviour: */
+            mCloudRecoBehaviour.EnableObservers(cloudRecoSearchResult, ImageTargetTemplate.gameObject);
+        }
+
         // Stop the scanning by disabling the behaviour
         mCloudRecoBehaviour.enabled = false;
     }
@@ -118,7 +124,7 @@ public class SimpleCloudRecoEventHandler1 : MonoBehaviour
             string[] allAssetNames = bundle.GetAllAssetNames();
             string gameObjectName = Path.GetFileNameWithoutExtension(allAssetNames[0]).ToString();
             GameObject objectFound = bundle.LoadAsset(gameObjectName) as GameObject;
-            Instantiate(objectFound, transform.position, transform.rotation);
+            Instantiate(objectFound, ImageTargetTemplate.transform);
 
         }
     }
